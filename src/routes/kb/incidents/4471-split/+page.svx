@@ -4,7 +4,7 @@ title: '#4471 split · three problems, not one'
 owner: Kinga Nowakowska
 status: open
 reviewed: 2026-11-01
-signature: 'v1.eyJzdWIiOiI0NDMiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdCI6MTc5MzU0Nzk0NCwiZXhwIjoxNzkzNjM0MzQ0fQ.34UdSgY-C9k7PqkjP-BWxx8_vflktcl0tbZXP7hQs8Q'
+signature: v1.eyJzdWIiOiI0NDMiLCJhdWQiOiJjaGFsbGVuZ2U6d2hhdC1pdC1zaG93cyIsImlhdCI6MTc5MzU0Nzk0NCwiZXhwIjoxNzkzNjM0MzQ0fQ.34UdSgY-C9k7PqkjP-BWxx8_vflktcl0tbZXP7hQs8Q
 ---
 
 <script>
