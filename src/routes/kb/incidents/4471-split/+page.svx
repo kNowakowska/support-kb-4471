@@ -1,0 +1,68 @@
+---
+layout: runbook
+title: '#4471 split · three problems, not one'
+owner: Kinga Nowakowska
+status: open
+reviewed: 2026-11-01
+signature: Kinga Nowakowska
+---
+
+<script>
+  import SplitTable from '#lib/kb/SplitTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+[#4471](/kb/incidents/4471) merged every report about wrong dates into one ticket, because their
+subject lines matched ([decision 0001](/kb/decisions/0001-dedupe-by-subject)). Read by what each
+report says, and placed by its tenant and form instead of by subject, the ticket holds three
+problems. Each has its own ticket now, and each needs its own fix.
+
+<Callout kind="warn">
+Not one issue. The queued parser fix closes only the first row below. The other two keep coming
+after it ships.
+</Callout>
+
+## What #4471 holds
+
+<SplitTable
+  ticket={4471}
+  issues={{
+    parser: 'https://github.com/kNowakowska/support-kb-4471/issues/1',
+    hint: 'https://github.com/kNowakowska/support-kb-4471/issues/2',
+    move: 'https://github.com/kNowakowska/support-kb-4471/issues/3',
+  }}
+/>
+
+## The three problems
+
+**`parser`: the shared parser reads dates month first.** Every tenant on file writes the day
+first, so a day of 12 or less swaps with the month: 7 April becomes 4 July. This reaches us
+through the app, email and the booking-v2 form. It is the bug #4471 named, and the queued fix is for it.
+
+**`hint`: booking-v3 asks for the month first and reads the day first.** The form prints
+`MM/DD/YYYY` under its date field. People type what it says, and the form reads the date the
+tenant's way. The symptom is the same swap, but the parser is not involved. Only form reports from
+tenants on booking-v3 have it. It needs a change to the form.
+
+**`move`: the date moves by one day.** These are not swaps: Tuesday becomes Monday, a meeting
+lands on two days in Lisbon and Toronto, an invite arrives before its booking. The desk already
+read them as a one-day move (`desk-notes.json`), but they were filed under `parser` by tenant.
+This looks like timezone or DST handling, so it needs its own investigation.
+
+## How this was counted
+
+- The export repeats some reports, because its pages overlap. One id is one report.
+- A report goes under `parser` or `hint` by its tenant's locale and booking form (`causes.ts`),
+  and under `move` when the desk read it as a one-day move. Each report is counted once.
+- The intake tag is a guess from the reporter's browser. Reporters with an en-US browser were tagged
+  `hint` whatever their tenant, so the tag does not decide anything here. The table shows it only
+  for comparison.
+
+## Lessons
+
+- A matching subject line shows that reports look the same, not that they have the same cause.
+  Split a ticket as soon as its reports point at different fixes.
+- Check a "known" ticket against its data before calling it one bug.
+
+<RenderStamp {signature} />
