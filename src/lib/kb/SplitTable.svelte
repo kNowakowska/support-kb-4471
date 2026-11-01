@@ -6,7 +6,8 @@
   import { splitTicket, type Problem } from '#lib/kb/split';
 
   // issues: where each problem is now tracked, problem → issue url.
-  let { ticket, issues = {} }: { ticket: number; issues?: Partial<Record<Problem, string>> } = $props();
+  // outcome: what engineering decided per problem, problem → words.
+  let { ticket, issues = {}, outcome = {} }: { ticket: number; issues?: Partial<Record<Problem, string>>; outcome?: Partial<Record<Problem, string>> } = $props();
 
   const LABEL: Record<Problem, string> = {
     parser: 'shared parser reads day-first dates month first',
@@ -32,7 +33,7 @@
 
 <table>
   <thead>
-    <tr><th>problem</th><th>reports</th><th>tenants</th><th>seen</th><th>intake tagged</th><th>tracked in</th></tr>
+    <tr><th>problem</th><th>reports</th><th>tenants</th><th>seen</th><th>intake tagged</th><th>tracked in</th><th>outcome</th></tr>
   </thead>
   <tbody>
     {#each split.groups as g (g.problem)}
@@ -43,11 +44,12 @@
         <td>{g.firstSeen} → {g.lastSeen}</td>
         <td class="tags">{tags(g.taggedAs)}</td>
         <td>{#if issues[g.problem]}<a href={issues[g.problem]}>{issueNo(issues[g.problem]!)}</a>{:else}<span class="none">no ticket</span>{/if}</td>
+        <td>{outcome[g.problem] ?? 'open'}</td>
       </tr>
     {/each}
   </tbody>
   <tfoot>
-    <tr><td>total</td><td><strong>{total}</strong></td><td colspan="4"></td></tr>
+    <tr><td>total</td><td><strong>{total}</strong></td><td colspan="5"></td></tr>
   </tfoot>
 </table>
 

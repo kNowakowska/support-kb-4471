@@ -19,8 +19,8 @@ report says, and placed by its tenant and form instead of by subject, the ticket
 problems. Each has its own ticket now, and each needs its own fix.
 
 <Callout kind="warn">
-Not one issue. The queued parser fix closes only the first row below. The other two keep coming
-after it ships.
+Not one issue. #4471 closed on 5 October with the parser fixed and booking-v3 retired. That
+covers the first two rows below. The one-day move is still open: nothing that closed #4471 touches it.
 </Callout>
 
 ## What #4471 holds
@@ -32,13 +32,27 @@ after it ships.
     hint: 'https://github.com/kNowakowska/support-kb-4471/issues/2',
     move: 'https://github.com/kNowakowska/support-kb-4471/issues/3',
   }}
+  outcome={{
+    parser: 'fixed',
+    hint: "won't fix: form retired",
+    move: 'open',
+  }}
 />
+
+## Outcome
+
+Engineering closed #4471 on 5 October:
+
+- **`parser`: fixed** by `fix(dates): parse dd/mm for eu locales`. Ticket closed as completed.
+- **`hint`: won't fix.** The booking-v3 form is retired, so its hint goes with it. Ticket closed as not planned.
+- **`move`: open.** Neither change reads a date differently by a day, so these reports have no fix yet.
+  If more one-day reports come in, add them to its ticket, not to a parser ticket.
 
 ## The three problems
 
 **`parser`: the shared parser reads dates month first.** Every tenant on file writes the day
 first, so a day of 12 or less swaps with the month: 7 April becomes 4 July. This reaches us
-through the app, email and the booking-v2 form. It is the bug #4471 named, and the queued fix is for it.
+through the app, email and the booking-v2 form. It is the bug #4471 named, and the fix is for it.
 
 **`hint`: booking-v3 asks for the month first and reads the day first.** The form prints
 `MM/DD/YYYY` under its date field. People type what it says, and the form reads the date the
